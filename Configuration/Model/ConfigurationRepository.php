@@ -25,6 +25,7 @@ class ConfigurationRepository implements ConfigurationRepositoryInterface
     public function getConfigurations()
     {
         $tab =  $this->configHelper->getFrontendConfigurations();
-        return $tab[0]['frontend_tab']['frontend_text'];
+        $tab = reset($tab);
+        return $tab['frontend_tab']['frontend_text'];
     }
 }
