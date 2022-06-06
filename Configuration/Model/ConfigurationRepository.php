@@ -1,22 +1,25 @@
 <?php
 
-
 namespace Atoon\Configuration\Model;
 
 use Atoon\Configuration\Api\ConfigurationRepositoryInterface;
+use Atoon\Configuration\Block\Configuration;
 use Atoon\Configuration\Helper\Config as configHelper;
-use Magento\Framework\Api\AbstractSimpleObject;
-use Magento\Framework\DataObject\KeyValueObjectInterface;
 
 class ConfigurationRepository implements ConfigurationRepositoryInterface
 {
-
     protected $configHelper;
+    /**
+     * @var Configuration
+     */
+    private Configuration $configuration;
 
     public function __construct(
-        configHelper $configHelper
+        configHelper $configHelper,
+        Configuration $configuration
     ) {
         $this->configHelper = $configHelper;
+        $this->configuration = $configuration;
     }
 
     /**
@@ -27,5 +30,12 @@ class ConfigurationRepository implements ConfigurationRepositoryInterface
         $tab =  $this->configHelper->getFrontendConfigurations();
         $tab = reset($tab);
         return $tab['frontend_tab']['frontend_text'];
+    }
+
+    public function getConfig()
+    {
+        $config = [];
+        $config['Message'] = $this->configuration->getCodData();
+        return $config;
     }
 }

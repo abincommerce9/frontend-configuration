@@ -3,30 +3,31 @@
 namespace Atoon\Configuration\Block;
 
 use Magento\Framework\View\Element\Template;
+use Atoon\Configuration\Helper\Config as configHelper;
+
 
 class Configuration extends Template
 {
+
     /**
-     * @var \Atoon\Configuration\Model\ConfigurationRepository
+     * @var configHelper
      */
-    private \Atoon\Configuration\Model\ConfigurationRepository $confRepository;
+    private configHelper $configHelper;
 
     public function __construct(
+        configHelper $configHelper,
         Template\Context $context,
-        \Atoon\Configuration\Model\ConfigurationRepository $confRepository,
         array $data = []
     ) {
-        $this->confRepository = $confRepository;
         parent::__construct($context, $data);
+        $this->configHelper = $configHelper;
     }
 
-    /**
-     * Get configuration text
-     *
-     * @return string
-     */
-    public function getConfigurationText()
+
+    public function getCodData()
     {
-        return $this->confRepository->getConfigurations();
+        $tab =  $this->configHelper->getFrontendConfigurations();
+        $tab = reset($tab);
+        return $tab['frontend_tab']['frontend_text'];
     }
 }
